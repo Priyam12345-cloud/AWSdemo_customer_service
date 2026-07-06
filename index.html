@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Free Contact Center Demo</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="backdrop backdrop-one"></div>
+    <div class="backdrop backdrop-two"></div>
+
+    <main class="shell">
+      <header class="hero card">
+        <div>
+          <p class="eyebrow">No AWS credit. No paid API. Local demo only.</p>
+          <h1>Denial Explanation Agent</h1>
+          <p class="lede">
+            A polished, browser-only prototype for explaining claim, coverage, and access denials
+            across chat, email triage, and task routing without any paid services.
+          </p>
+        </div>
+        <div class="hero-panel">
+          <div class="status-pill online">Live local demo</div>
+          <div class="hero-summary">
+            <div>
+              <span>Queue</span>
+              <strong>Claims & Appeals</strong>
+            </div>
+            <div>
+              <span>Policy source</span>
+              <strong>Local knowledge base</strong>
+            </div>
+          </div>
+          <ul class="metrics">
+            <li><strong>0</strong><span>cloud cost</span></li>
+            <li><strong>3</strong><span>channels</span></li>
+            <li><strong>1</strong><span>day to present</span></li>
+          </ul>
+        </div>
+      </header>
+
+      <section class="strip card">
+        <button class="scenario active" data-scenario="billing">Billing dispute</button>
+        <button class="scenario" data-scenario="delivery">Delivery delay</button>
+        <button class="scenario" data-scenario="access">Password reset</button>
+        <button class="scenario" data-scenario="returns">Return request</button>
+      </section>
+
+      <section class="grid">
+        <article class="card panel chat-panel">
+          <div class="panel-head">
+            <div>
+              <p class="panel-kicker">Customer chat</p>
+              <h2>Customer explanation chat</h2>
+            </div>
+            <span class="badge">Policy-aware responses</span>
+          </div>
+
+          <div id="chatThread" class="thread" aria-live="polite"></div>
+
+          <div id="stageNote" class="stage-note"></div>
+
+          <div class="quick-replies" id="quickReplies"></div>
+
+          <form id="chatForm" class="composer">
+            <input id="chatInput" type="text" placeholder="Type a customer message or internal note..." autocomplete="off" />
+            <button type="submit">Send</button>
+          </form>
+        </article>
+
+        <aside class="stack">
+          <article class="card panel insight-panel">
+            <div class="panel-head">
+              <div>
+                <p class="panel-kicker">Local assistant</p>
+                <h2>Next best action</h2>
+              </div>
+              <span class="badge accent">Policy guided</span>
+            </div>
+            <div id="assistantCard" class="assistant-card"></div>
+            <div class="mini-list" id="reasonList"></div>
+          </article>
+
+          <article class="card panel policy-panel">
+            <div class="panel-head">
+              <div>
+                <p class="panel-kicker">Policy lookup</p>
+                <h2>Denial reason map</h2>
+              </div>
+              <span class="badge">Reference only</span>
+            </div>
+            <div id="policyList" class="policy-list"></div>
+          </article>
+
+          <article class="card panel email-panel">
+            <div class="panel-head">
+              <div>
+                <p class="panel-kicker">Email triage</p>
+                <h2>Denied case inbox</h2>
+              </div>
+              <span class="badge">Local sample data</span>
+            </div>
+            <div id="emailList" class="email-list"></div>
+          </article>
+        </aside>
+      </section>
+
+      <section class="grid lower-grid">
+        <article class="card panel tasks-panel">
+          <div class="panel-head">
+            <div>
+              <p class="panel-kicker">Task routing</p>
+              <h2>Explanation queue</h2>
+            </div>
+            <span class="badge">Simulated assignment</span>
+          </div>
+          <div id="taskList" class="task-list"></div>
+        </article>
+
+        <article class="card panel summary-panel">
+          <div class="panel-head">
+            <div>
+              <p class="panel-kicker">Manager summary</p>
+              <h2>Demo story</h2>
+            </div>
+            <a class="badge accent talk-link" href="talking-points.html">Talking points page</a>
+          </div>
+          <div class="summary-copy">
+              <p>
+              This demo shows how a support agent could explain denials in a clear, compliant, and empathetic way.
+              The experience is fully local, so it avoids AWS costs and API keys while still feeling like a real operations tool.
+            </p>
+            <ul>
+              <li>Chat suggestions update from policy rules and case context.</li>
+              <li>Email triage classifies denial requests by reason and urgency.</li>
+              <li>Tasks are routed to the right queue with no backend dependency.</li>
+            </ul>
+          </div>
+        </article>
+      </section>
+
+      <footer class="footer">
+        Built for a no-cost presentation. Runs by opening this file in a browser.
+      </footer>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>
