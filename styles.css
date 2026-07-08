@@ -487,6 +487,56 @@ h2 {
   padding-left: 1.2rem;
 }
 
+.outbound-wrap {
+  margin-top: 1rem;
+}
+
+.outbound-log {
+  margin-top: 0.6rem;
+  max-height: 160px;
+  overflow: auto;
+  display: grid;
+  gap: 0.5rem;
+  padding: 0.6rem;
+  border-radius: 12px;
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(255,255,255,0.04);
+}
+
+.outbound-empty {
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+
+.outbound-entry {
+  padding: 0.55rem 0.65rem;
+  border-radius: 10px;
+  background: rgba(109,227,196,0.04);
+  border: 1px solid rgba(109,227,196,0.08);
+}
+
+.outbound-top {
+  display:flex;
+  justify-content:space-between;
+  gap:0.5rem;
+  align-items:center;
+  margin-bottom:0.35rem;
+}
+
+.outbound-type {
+  color: var(--text);
+}
+
+.outbound-time {
+  color: var(--muted);
+  font-size:0.82rem;
+}
+
+.outbound-details {
+  color: var(--muted);
+  font-size:0.92rem;
+}
+
 .summary-copy li + li {
   margin-top: 0.45rem;
 }

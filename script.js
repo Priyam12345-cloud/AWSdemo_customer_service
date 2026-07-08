@@ -1,6 +1,7 @@
 const state = {
   scenario: 'billing',
   flowStage: 0,
+  outboundLog: [],
   conversations: {
     billing: {
       title: 'Claim denial explanation',
@@ -199,6 +200,9 @@ function loadState() {
     if (Array.isArray(parsed.messages)) {
       state.messages = parsed.messages;
     }
+    if (Array.isArray(parsed.outboundLog)) {
+      state.outboundLog = parsed.outboundLog;
+    }
   } catch {
     localStorage.removeItem(storageKey);
   }
@@ -207,7 +211,7 @@ function loadState() {
 function saveState() {
   localStorage.setItem(
     storageKey,
-    JSON.stringify({ scenario: state.scenario, flowStage: state.flowStage, messages: state.messages.slice(-12) }),
+    JSON.stringify({ scenario: state.scenario, flowStage: state.flowStage, messages: state.messages.slice(-12), outboundLog: state.outboundLog.slice(-40) }),
   );
 }
 
@@ -324,7 +328,10 @@ function renderEmails() {
   emailList.querySelectorAll('button').forEach((button) => {
     button.addEventListener('click', () => {
       const action = button.dataset.emailAction;
-      addSystemMessage(`Email action: ${action} applied in the local demo.`);
+      const parent = button.closest('.email-item');
+      const subject = parent ? parent.querySelector('.email-subject')?.textContent.trim() : 'email';
+      const from = parent ? parent.querySelector('.email-meta')?.textContent.replace(/^From\s*/i, '') : '';
+      pushOutboundAction('Email', `${action} · ${subject} ${from ? '· ' + from : ''}`);
     });
   });
 }
@@ -355,9 +362,43 @@ function renderTasks() {
   taskList.querySelectorAll('button').forEach((button) => {
     button.addEventListener('click', () => {
       const action = button.dataset.taskAction;
-      addSystemMessage(`Task action: ${action} applied in the local demo.`);
+      const details = `${action} on ${button.closest('.task-item').querySelector('.task-title')?.textContent || 'task'}`;
+      pushOutboundAction('Task', `${action} · ${details}`);
     });
   });
+}
+
+function pushOutboundAction(type, details) {
+  const entry = { time: formatTime(), type, details };
+  state.outboundLog = state.outboundLog || [];
+  state.outboundLog.unshift(entry);
+  // Add a short system message for chat visibility as well
+  state.messages.push({ role: 'system', text: `Outbound ${type}: ${details}`, time: entry.time });
+  renderAll();
+  renderOutboundLog();
+  chatThread.scrollTop = chatThread.scrollHeight;
+  saveState();
+}
+
+function renderOutboundLog() {
+  const container = document.getElementById('outboundLog');
+  if (!container) return;
+  if (!state.outboundLog || state.outboundLog.length === 0) {
+    container.innerHTML = `<div class="outbound-empty">No outbound actions yet. Actions will appear here when you click route, assign, or reply.</div>`;
+    return;
+  }
+
+  container.innerHTML = state.outboundLog
+    .slice(0, 40)
+    .map(
+      (e) => `
+        <div class="outbound-entry">
+          <div class="outbound-top"><strong class="outbound-type">${escapeHtml(e.type)}</strong><span class="outbound-time">${escapeHtml(e.time)}</span></div>
+          <div class="outbound-details">${escapeHtml(e.details)}</div>
+        </div>
+      `,
+    )
+    .join('');
 }
 
 function updateScenario(scenario) {
@@ -440,6 +481,7 @@ function renderAll() {
   renderPolicy();
   renderEmails();
   renderTasks();
+  renderOutboundLog();
 }
 
 function escapeHtml(value) {
